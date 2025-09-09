@@ -1,14 +1,8 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html } from 'lit';
 import { EventHelper } from '../helpers/eventHelper.js';
 
 export class LoginUi extends LitElement {
-    static styles = [
-        css`
-            :host {
-                display: block;
-            }
-        `
-    ];
+    createRenderRoot(){ return this; }
 
     static properties = {
         email:{ type: String },
@@ -36,7 +30,8 @@ export class LoginUi extends LitElement {
     }
 
     firstUpdated(){
-        const input = this.shadowRoot.querySelector('#email');
+        const root = this.renderRoot || this;
+        const input = root.querySelector('#email');
         if(input){
             input.focus();
         }

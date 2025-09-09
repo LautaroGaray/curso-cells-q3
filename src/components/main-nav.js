@@ -1,74 +1,17 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html } from 'lit';
 import { Router } from '@vaadin/router';
+import { Auth } from '../mixins/auth-mixin.js';
 
 export class MainNav extends LitElement {
-  static styles = css`
-    :host { display: block; }
-    header {
-      position: fixed;
-      inset: 0 0 auto 0;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      backdrop-filter: blur(6px);
-      background: linear-gradient(90deg, rgba(6,182,212,0.95), rgba(14,165,164,0.95));
-      color: white;
-      box-shadow: 0 6px 18px rgba(2,6,23,0.45);
-      z-index: 1000;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .brand {
-      font-weight: 700;
-      letter-spacing: 0.4px;
-      color: white;
-      text-decoration: none;
-      font-size: 1.05rem;
-    }
-
-    nav {
-      display: flex;
-      gap: 18px;
-      align-items: center;
-    }
-
-    a {
-      color: rgba(255,255,255,0.95);
-      text-decoration: none;
-      padding: 8px 12px;
-      border-radius: 8px;
-      transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    a:hover {
-      transform: translateY(-2px);
-      background: rgba(255,255,255,0.06);
-      box-shadow: 0 6px 14px rgba(2,6,23,0.25);
-    }
-
-    @media (max-width: 600px) {
-      nav { gap: 8px; }
-      .brand { font-size: 0.95rem; }
-    }
-  `;
-
   constructor() {
     super();
     this._onClick = this._onClick.bind(this);
+    this._onPop = this._onPop.bind(this);
   }
 
   render() {
+    if (location.pathname === '/login') return html``;
+    const authenticated = Auth.isAuthenticated();
     return html`
       <header>
         <div class="container">
@@ -76,20 +19,30 @@ export class MainNav extends LitElement {
           <nav>
             <a href="/">Home</a>
             <a href="/about">About</a>
-            <a href="/login">Login</a>
+            ${authenticated ? html`<a href="#" @click=${this._onLogout}>Logout</a>` : html`<a href="/login">Login</a>`}
           </nav>
         </div>
       </header>
     `;
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('popstate', this._onPop);
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener('popstate', this._onPop);
+    this.shadowRoot.removeEventListener('click', this._onClick);
+    super.disconnectedCallback();
+  }
+
   firstUpdated() {
     this.shadowRoot.addEventListener('click', this._onClick);
   }
 
-  disconnectedCallback() {
-    this.shadowRoot.removeEventListener('click', this._onClick);
-    super.disconnectedCallback();
+  _onPop() {
+    this.requestUpdate();
   }
 
   _onClick(e) {
@@ -101,6 +54,13 @@ export class MainNav extends LitElement {
       e.preventDefault();
       Router.go(url.pathname + url.search + url.hash);
     }
+  }
+
+  _onLogout(e) {
+    e.preventDefault();
+    Auth.logout();
+    Router.go('/login');
+    this.requestUpdate();
   }
 }
 

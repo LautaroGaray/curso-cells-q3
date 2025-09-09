@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { EventHelper } from '../helpers/eventHelper.js';
+import { Auth } from '../mixins/auth-mixin.js';
 
 export class LoginDm extends LitElement {
    
@@ -9,18 +10,13 @@ export class LoginDm extends LitElement {
    }
 
    login(email,password){
-      console.log("LoginDM login method");      
+      console.log("LoginDM login method");
 
-      //Simulate a longin request     
-    setTimeout(() => {
-           console.log('loginSuccess', {email})
-      }, 1000);
-    
-      if(email === 'admin@gmail.com' && password === 'admin'){
-          EventHelper._fireEvent(this, 'login-dm:login-success', {role:'admin'});
-      }else{
-          EventHelper._fireEvent(this, 'login-dm:login-error', {message: 'Invalid credentials'});
-      }
+      Auth.login(email, password).then(user => {
+          EventHelper._fireEvent(this, 'login-dm:login-success', user);
+      }).catch(err => {
+          EventHelper._fireEvent(this, 'login-dm:login-error', {message: err.message});
+      });
    }
 }
 customElements.define('login-dm', LoginDm);
