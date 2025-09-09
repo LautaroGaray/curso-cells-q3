@@ -95,46 +95,31 @@ a:hover {
 }
 
 #outlet {
-  /* Make outlet behave like body dimensions and center content */
-  min-height: 100vh;
+ 
+  height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding-top: 72px; /* account for fixed header */
+  justify-content: center; 
   box-sizing: border-box;
+  width: 100vw;
 }
 
-/* Ensure elements inside content are centered textually by default */
+
 #outlet * {
   text-align: center;
 }
 
 .app-container {
-  max-width: 980px;
-  margin: 40px auto;
+  max-width: 960px;
+  margin: 56px auto;
   padding: 16px;
 }
 
-.auth-layout header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
-  background: var(--card);
-  border-radius: 8px;
-}
+/* common layout */
+.app-container{max-width:960px;margin:56px auto;padding:16px}
 
-.auth-layout main {
-  margin-top: 16px;
-  background: var(--card);
-  padding: 18px;
-  border-radius: 8px;
-}
 
-.login-ui {
-  display: flex;
-  justify-content: center;
-}
+.login-ui{display:flex;justify-content:center;padding:20px}
 
 .login-ui form {
   display: flex;
@@ -162,9 +147,68 @@ a:hover {
   cursor: pointer;
 }
 
+/* alert modal overrides */
+.alert-modal .modal{min-width:320px}
+
 .modal {
   min-width: 320px;
 }
+
+
+home-page, login-page {
+  min-height: calc(100vh - 72px);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 48px 16px;
+  background: linear-gradient(180deg, #0ab3ff 0%, #0066d6 100%);
+  color: #ffffff;
+  gap: 24px;
+}
+
+
+home-page > *:not(header), login-page > *:not(header) {
+  width: 100%;
+  max-width: 980px;
+}
+
+
+.login-ui form {
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 10px 30px rgba(3,30,66,0.18);
+  width: 380px;
+}
+
+.login-ui label { color: rgba(255,255,255,0.95); font-weight:600 }
+.login-ui input.form-control { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #fff }
+.login-ui input::placeholder { color: rgba(255,255,255,0.6) }
+
+
+.btn-primary {
+  background: linear-gradient(90deg,#00aaff,#0078ff);
+  border: none;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0,120,255,0.18);
+  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(0,160,255,0.36);
+  filter: brightness(1.05);
+}
+
+home-page, login-page { color: #fff }
+
+
+home-page .content, login-page .content { display:flex;flex-direction:column;gap:16px;align-items:center }
+
+
+home-page footer, login-page footer { width:100%; max-width:980px; text-align:center; padding:12px 0; color: rgba(255,255,255,0.85) }
 
 @media (prefers-color-scheme: light) {
   :root {

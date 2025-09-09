@@ -39,12 +39,18 @@ export class LoginUi extends LitElement {
     render() {
         return html`
         <div class='login-ui'>   
-         <form @submit="${this.handleSubmit}">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" .value="${this.email}" @input="${this.emailChange}" required>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" .value="${this.password}" @input="${this.passwordChange}"  required>
-            <button type="submit">Login</button>
+         <form class="p-4 bg-white rounded shadow-sm d-flex flex-column gap-3" @submit="${this.handleSubmit}">
+            <div class="mb-2">
+              <label for="email" class="form-label">Email:</label>
+              <input type="email" id="email" name="email" class="form-control" .value="${this.email}" @input="${this.emailChange}" required>
+            </div>
+            <div class="mb-2">
+              <label for="password" class="form-label">Password:</label>
+              <input type="password" id="password" name="password" class="form-control" .value="${this.password}" @input="${this.passwordChange}"  required>
+            </div>
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-primary">Login</button>
+            </div>
     </form>
     </div>
         `;

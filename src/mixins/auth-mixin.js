@@ -2,7 +2,7 @@ export const Auth = {
   key: 'app_auth',
   login(username, password) {
     return new Promise((resolve, reject) => {
-      const valid = (username === 'user@email.com' && password === 'Pass1234') || (username && password);
+      const valid = (username === 'user@email.com' && password === 'Pass1234');
       if (valid) {
         const user = { username, token: 'token-' + Date.now() };
         localStorage.setItem(this.key, JSON.stringify(user));
