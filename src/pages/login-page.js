@@ -47,7 +47,7 @@ export class LoginPage extends LitElement {
         const {detail} = event;
         this.alertMessage = '';
         console.log('Login success', detail.role);
-        Router.go('/');
+        Router.go('/home');
     }
 
     render() {

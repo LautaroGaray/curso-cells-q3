@@ -221,3 +221,9 @@ home-page footer, login-page footer { width:100%; max-width:980px; text-align:ce
   nav { gap: 8px; }
   .brand { font-size: 0.95rem; }
 }
+
+home-page{
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+}
